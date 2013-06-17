@@ -115,9 +115,9 @@ var editorTabs = {
 	})(),
 	initialize: function() {
 		this.element.appendChild(this.addTabButton);
-		this.addNewTab('coltab', 'detection');
-		this.addNewTab('bgtab1', 'tab1', true);
-		this.addNewTab('bgtab2', 'tab2');
+		this.addNewTab('coltab', 'CollisionLayer');
+		this.addNewTab('bgtab1', 'Layer 1', true);
+		this.addNewTab('bgtab2', 'Layer 2');
 		this.applyColors();
 	},
 	addNewTab: function(id, name, active) {
