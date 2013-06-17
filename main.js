@@ -96,7 +96,7 @@ var mapForm = {
 		form.appendChild(this.heightBox);
 		form.innerHTML += '<br />Image Set: ';
 		form.appendChild(this.imageMenu);
-		form.innerHTML += '<br />Use non-default tileset image';
+		form.innerHTML += '<br />Enable extended mode (leave checked)';
 		form.appendChild(this.extendOption);
 		form.innerHTML += '<br />';
 		form.appendChild(this.acceptButton);
