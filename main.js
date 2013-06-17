@@ -65,7 +65,7 @@ var mapForm = {
 				app.mapHeight = hv;
 				app.image.onload = function() {
 					if (app.extendMode && this.width != 256 || this.height != 256) {
-						alert('Please use a 256x256 Image');
+						alert('Please use a 256x256 tileset image');
 						return;
 					}
 					start(wv, hv, iv, ev);
@@ -96,7 +96,7 @@ var mapForm = {
 		form.appendChild(this.heightBox);
 		form.innerHTML += '<br />Image Set: ';
 		form.appendChild(this.imageMenu);
-		form.innerHTML += '<br />Enable map extension';
+		form.innerHTML += '<br />Use non-default tileset image';
 		form.appendChild(this.extendOption);
 		form.innerHTML += '<br />';
 		form.appendChild(this.acceptButton);
