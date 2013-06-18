@@ -15,6 +15,7 @@ background-color:#fff;
 	position: fixed;
 	z-index: 100;
 	background: #fff;
+	overflow: scroll;
 
 }
 
@@ -44,4 +45,19 @@ font-size:20px;
 body, h1, h2, h3, h4, h5, h6, p
 {
 	font-family: 'Titillium Web', sans-serif;
+}
+
+.main h1, .main h2, .main h3,.main h4,.main h5,.main h6,.main p, .main ul
+{
+	margin-left: 100px;
+	margin-right: 100px;
+}
+
+.main ol
+{
+	margin-left: 20px;
+}
+
+.main ul > li{
+	margin-top: 15px;
 }
