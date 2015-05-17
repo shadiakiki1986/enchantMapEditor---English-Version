@@ -34,6 +34,7 @@ var mapForm = {
 		element.id = 'select';
 		element.options[0] = new Option('RPG', 'map0.gif');
 		element.options[1] = new Option('2D Scroll', 'map1.gif');
+		element.options[2] = new Option('Joowar Beirut', 'map2-joowarBeirut-V20150517-1.gif');
 		return element;
 	})(),
 	extendOption: (function() {
@@ -79,6 +80,13 @@ var mapForm = {
 					var d2 = document.createElement('div');
 					d2.appendChild(geneButton);
 					d2.appendChild(loadButton);
+					d2.appendChild(geneButton);
+
+					d2.innerHTML+="<br>Json file<br>";
+					d2.appendChild(loadJsonButton);
+					d2.innerHTML+="<br>";
+					d2.appendChild(geneButton2);
+
 					edit.appendChild(d2);
 					palette.loadImage(app.image);
 				};
@@ -313,7 +321,8 @@ var geneButton = (function() {
 	element.value = 'Generate Code';
 	element.onclick = function() {
 		var txt = '';
-		var w = window.open('about:blank', '_blank');
+		//var w = window.open('about:blank', '_blank');
+w=window;
 		var output = document.createElement('textarea');
 		app.maps.bgMap.collisionData = app.maps.colMap._data[0];
 		output.rows = 30;
@@ -325,13 +334,29 @@ var geneButton = (function() {
 	return element;
 })();
 
+var geneButton2 = (function() {
+	var element = document.createElement('input');
+	element.type = 'button';
+	element.id = 'geneButton2';
+	element.value = 'Generate json';
+	element.onclick = function() {
+		app.maps.bgMap.collisionData = app.maps.colMap._data[0];
+		txt = app.maps.bgMap.getDataJson(app.imagePath);
+		var blob = new Blob([txt], {type: "application/json"});
+		saveAs(blob, "map.js");
+	};
+	return element;
+})();
+
+
 var loadButton = (function() {
 	var element = document.createElement('input');
 	element.type = 'button';
 	element.id = 'loadButton';
 	element.value = 'Import Code';
 	element.onclick = function() {
-		var w = window.open('about:blank', '_blank');
+//		var w = window.open('about:blank', '_blank');
+w=window;
 		var input = document.createElement('textarea');
 		input.id = 'load';
 		input.rows = 30;
@@ -364,12 +389,59 @@ var loadButton = (function() {
 			}
 			app.frame.changeSize(app.mapWidth, app.mapHeight);
 			editorTabs.applyColors();
-			w.close();
+	//		w.close();
 		};
 		w.document.body.appendChild(input);
 		w.document.body.innerHTML += '<br />';
 		w.document.body.appendChild(accept);
 		w.document.getElementById('load').value += '// example \n// backGround.loadData([[0, 1, 2], [3, 4, 5], [6, 7, 8]]);';
+	};
+	return element;
+})();
+
+var loadJsonText="";
+var loadJsonButton = (function() {
+	var element = document.createElement('input');
+	element.type = 'file';
+	element.id = 'loadJsonButton';
+	//element.value = 'Import Json';
+	element.onchange = function() {
+	    var file = this.files[0];
+
+	    var reader = new window.FileReader();
+	    reader.onload = function(event) {
+		if (event) {
+			loadJsonText=JSON.parse(reader.result);
+
+			try {
+				backgroundMap.loadData(loadJsonText.a,loadJsonText.b);
+				backgroundMap.collisionData = loadJsonText.c;
+			} catch (e) {
+				console.log(e);
+				alert(e);
+			}
+			app.mapWidth = backgroundMap._data[0][0].length;
+			app.mapHeight = backgroundMap._data[0].length;
+			app.maps.colMap.loadData(backgroundMap.collisionData);
+			var length = backgroundMap._data.length;
+			var tabs = document.getElementById('tabs');
+			var num = tabs.childNodes.length - 2;
+			if (length < num) {
+				for (var i = num; i > length; i--) {
+					tabs.removeChild(tabs.childNodes[tabs.childNodes.length - 2]);
+				}
+			} else if (length > num) {
+				for (var i = num; i < length; i++) {
+					editorTabs.addNewTab('bgtab' + i, 'layer' + i);
+				}
+			}
+			app.frame.changeSize(app.mapWidth, app.mapHeight);
+			editorTabs.applyColors();
+
+		}
+	    }
+	    reader.readAsText(file);
+
 	};
 	return element;
 })();

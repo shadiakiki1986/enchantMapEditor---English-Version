@@ -163,6 +163,35 @@ enchant.Map.prototype.getDataCode = function(mapName, imagePath) {
 	return txt;
 };
 
+enchant.Map.prototype.getDataJson = function(imagePath) {
+    var o={};
+    o.map=imagePath; 
+    o.a=[];
+    o.b=[];
+    for (var i = 0, l = this._data.length; i < l; i++) {
+        temp=[];
+        for (var j = 0, ll = this._data[0].length; j < ll; j++) {
+            temp.push(JSON.parse('['+
+            	this._data[i][j].toString()+
+            ']'));
+        }   
+	if(i==0) o.a=temp; else if(i==1) o.b=temp; else console.log("Unsupported index "+i);
+    }   
+    o.c=[];
+	if (this.collisionData != null) {
+	        temp=[];
+		for (var i = 0, l = this.collisionData.length; i < l; i++) {
+		    temp.push(JSON.parse('['+
+			this.collisionData[i].toString()+
+		    ']'));
+		}   
+		o.c=temp;
+	}
+	//return 'function '+mapName+'() { return '+JSON.stringify(o)+'; }';
+	return JSON.stringify(o);
+};
+
+
 
 
 // ExMap向け
